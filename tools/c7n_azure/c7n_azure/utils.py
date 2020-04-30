@@ -479,6 +479,7 @@ class AppInsightsHelper:
 
 
 class ManagedGroupHelper:
+    log = logging.getLogger('custodian.azure.utils.ManagedGroupHelper')
     class serialize(JSONEncoder):
         def default(self, o):
             return o.__dict__
@@ -500,9 +501,11 @@ class ManagedGroupHelper:
     @staticmethod
     def get_subscriptions_list(managed_resource_group, credentials):
         client = ManagementGroupsAPI(credentials)
+        ManagedGroupHelper.log.info(f"Management Group: {managed_resource_group}")
         groups = client.management_groups.get(
             group_id=managed_resource_group, recurse=True,
             expand="children").serialize()["properties"]
+        ManagedGroupHelper.log.info(groups)
         subscriptions = ManagedGroupHelper.filter_subscriptions('type', groups)
         subscriptions = [subscription['name'] for subscription in subscriptions]
         return subscriptions
