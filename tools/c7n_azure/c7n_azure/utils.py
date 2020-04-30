@@ -508,6 +508,7 @@ class ManagedGroupHelper:
         ManagedGroupHelper.log.info(groups)
         subscriptions = ManagedGroupHelper.filter_subscriptions('type', groups)
         subscriptions = [subscription['name'] for subscription in subscriptions]
+        ManagedGroupHelper.log.info(subscriptions)
         return subscriptions
 
 
